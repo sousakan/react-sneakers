@@ -1,0 +1,175 @@
+$light-gray: #eaeaea;
+$gray: darken($light-gray, 20%);
+
+$rose: #fef0f0;
+$dark-rose: darken($rose, 20%);
+
+$red: #ff8585;
+$dark-red: darken($red, 10%);
+
+.card {
+  width: 210px;
+  height: 260px;
+
+  padding: 20px 29.5px 0;
+
+  border: 1px solid #f3f3f3;
+  border-radius: 40px;
+
+  transition: box-shadow 0.2s linear, transform 0.2s linear;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.05);
+    transform: translateY(-10px);
+  }
+}
+
+.card__img {
+  display: block;
+
+  width: 135px;
+  height: 114px;
+
+  margin-bottom: 15px;
+
+  object-fit: cover;
+}
+
+.card__name {
+  margin-bottom: 15px;
+
+  color: var(--black);
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.card__bottom {
+  display: flex;
+  justify-content: space-between;
+
+  height: 32px;
+}
+
+.card__text {
+  color: #bdbdbd;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.card__value {
+  color: var(--black);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+// Like button
+
+.like-button {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  background-color: transparent;
+
+  border-color: $light-gray;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: border-color 0.2s linear;
+
+  &:hover {
+    border-color: $gray;
+  }
+}
+
+.like-button_active {
+  background-color: $rose;
+  border-width: 0;
+
+  transition: color 0.2s linear;
+
+  &:hover {
+    border-width: 0;
+  }
+}
+
+.like-button__path {
+  transition: stroke 0.2s linear, fill 0.2s linear;
+
+  stroke: $light-gray;
+}
+
+.like-button:hover .like-button__path {
+  stroke: $gray;
+}
+
+.like-button_active .like-button__path {
+  fill: $red;
+  stroke: none;
+}
+
+.like-button_active:hover .like-button__path {
+  fill: $dark-red;
+  stroke: none;
+}
+
+
+// Add button
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  background-color: transparent;
+
+  border-color: $light-gray;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: border-color 0.2s linear;
+
+  &:hover {
+    border-color: $gray;
+  }
+}
+
+.add-button_active {
+  $green1: #89f09c;
+  $green2: #3cc755;
+
+  background: linear-gradient(180deg, $green1 0%, $green2 100%);
+  border-width: 0;
+
+  transition: opacity 0.2s linear;
+
+  &:hover {
+    border-width: 0;
+    opacity: 0.7;
+  }
+}
+
+.add-button:hover .add-button__svg {
+  color: $gray;
+}
+
+.add-button__svg {
+  color: $light-gray;
+
+  transition: color 0.2s linear;
+}

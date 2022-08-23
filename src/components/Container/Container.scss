@@ -1,0 +1,12 @@
+$width: 1080px;
+
+.container {
+  max-width: $width;
+
+  margin: 0 auto;
+  padding: 45px 60px;
+}
+
+.container_small {
+  padding: 45px;
+}

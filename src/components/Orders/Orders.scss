@@ -1,0 +1,43 @@
+.orders__header {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 40px;
+}
+
+.orders__link {
+  display: block;
+}
+
+.orders__icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+.orders__title {
+  margin-left: 20px;
+
+  color: var(--black);
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.orders__goods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: start;
+}
+
+.orders__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    
+  width: 100%;
+  height: 100%;
+
+  padding-top: 15vh;
+}

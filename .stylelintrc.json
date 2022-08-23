@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-rational-order"
+  ],
+  "rules": {
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": [
+      [],
+      {
+        "severity": "error"
+      }
+    ],
+    "plugin/rational-order": [
+      true,
+      {
+        "border-in-box-model": false,
+        "empty-line-between-groups": true
+      }
+    ],
+    "max-nesting-depth": 10,
+    "selector-class-pattern": null,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["attribute"]
+      }
+    ]
+  }
+}

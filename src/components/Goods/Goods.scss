@@ -1,0 +1,19 @@
+.goods__title {
+  color: var(--black);
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.goods__header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 30px;
+}
+
+.goods__catalog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: start;
+}

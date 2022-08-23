@@ -1,0 +1,66 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 325px;
+  height: 120px;
+
+  padding: 0 20px;
+
+  border: 1px solid #f3f3f3;
+  border-radius: 20px;
+}
+
+.bar__img {
+  display: block;
+  width: 70px;
+  height: 70px;
+
+  object-fit: cover;
+}
+
+.bar__name {
+  width: 150px;
+  margin-bottom: 8px;
+
+  color: var(--black);
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.bar__price {
+  display: block;
+
+  color: var(--black);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.bar__button {
+  $color: #dbdbdb;
+  $dark-color: darken($color, 15%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  color: $color;
+
+  background-color: transparent;
+
+  border: 1px solid $color;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: color 0.2s linear, border-color 0.2s linear;
+
+  &:hover {
+    color: $dark-color;
+
+    border-color: $dark-color;
+  }
+}

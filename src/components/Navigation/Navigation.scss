@@ -1,0 +1,48 @@
+.nav {
+  display: flex;
+
+  align-items: center;
+}
+
+.nav__button,
+.nav__link {
+  margin-right: 30px;
+
+  color: var(--gray);
+
+  text-decoration: none;
+
+  transition: color 0.2s linear;
+
+  &:hover {
+    color: darken(#9b9b9b, 30%);
+  }
+}
+
+.nav__button {
+  display: flex;
+  align-items: center;
+
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.nav__link:last-child {
+  margin-right: 0;
+}
+
+.nav__price {
+  margin-left: 10px;
+
+  color: #5c5c5c;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nav__icon {
+  width: 20px;
+  height: 20px;
+
+  color: inherit;
+}

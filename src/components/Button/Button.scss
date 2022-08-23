@@ -1,0 +1,61 @@
+.button {
+  $color: #9dd458;
+  $dark-color: darken(#9dd458, 20%);
+
+  padding: 18px 0;
+
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+
+  background-color: $color;
+  border: 0;
+  border-radius: 18px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s linear;
+
+  &:hover {
+    background-color: $dark-color;
+  }
+}
+
+.button_pay,
+.button_back {
+  position: relative;
+
+  &::after {
+    position: absolute;
+
+    top: 50%;
+
+    display: block;
+    width: 16px;
+    height: 14px;
+
+    transform: translateY(-50%);
+
+    content: '';
+  }
+}
+
+.button_pay {
+  width: 100%;
+
+  &::after {
+    right: 30px;
+
+    background-image: url('../../../public/icons/arrow_right.svg');
+  }
+}
+
+.button_back {
+  width: 245px;
+
+  &::after {
+    left: 30px;
+
+    background-image: url('../../../public/icons/arrow_left.svg');
+  }
+}
