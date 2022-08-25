@@ -1,10 +1,13 @@
+import Good from './types/Good';
+import State from './types/State';
+
 import React from 'react';
 import { useState, useEffect } from 'react';
 
 import api from './api';
 import calcTotalPrice from './helpers/calcTotalPrice';
 
-export const Context = React.createContext();
+export const Context = React.createContext<State>(null!);
 
 const ADD_TO_CART_ERR = 'Ошибка добавления товара в корзину';
 const RM_FROM_CART_ERR = 'Ошибка удаления товара из корзины';
@@ -12,23 +15,27 @@ const ADD_TO_LIKED_ERR = 'Ошибка добавления товара в из
 const RM_FROM_LIKED_ERR = 'Ошибка удаления товара из избранного';
 const GOODS_LOAD_ERR = 'Ошибка загрузки товаров';
 
-const Store = ({ children }) => {
-  const [goods, setGoods] = useState([]);
-  const [orderedGoods, setOrderedGoods] = useState([]);
+interface Props {
+  children: JSX.Element
+}
+
+const Store = ({ children }: Props) => {
+  const [goods, setGoods] = useState<Good[]>([]);
+  const [orderedGoods, setOrderedGoods] = useState<Good[]>([]);
   const [orderNumber, setOrderNumber] = useState(0);
   const [searchValue, setSearchValue] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  function updateLocalGood(updGood) {
+  function updateLocalGood(updGood: Good): void {
     setGoods((prev) => prev.map((e) => (e.id === updGood.id ? updGood : e)));
   }
 
-  function restorePrevLocalGoods(prevGoods) {
+  function restorePrevLocalGoods(prevGoods: Good[]): void {
     setGoods(prevGoods);
   }
 
-  function updateServerGood(updGood, errorMsg) {
+  function updateServerGood(updGood: Good, errorMsg: string): void {
     api.goods.update(updGood).catch((e) => {
       restorePrevLocalGoods(goods);
       alert(errorMsg);
@@ -36,40 +43,40 @@ const Store = ({ children }) => {
     });
   }
 
-  const addToCart = (good) => {
+  const addToCart = (good: Good): void => {
     const updatedGood = { ...good, isAdded: true };
 
     updateLocalGood(updatedGood);
     updateServerGood(updatedGood, ADD_TO_CART_ERR);
   };
-  const removeFromCart = (good) => {
+  const removeFromCart = (good: Good): void => {
     const updatedGood = { ...good, isAdded: false };
 
     updateLocalGood(updatedGood);
     updateServerGood(updatedGood, RM_FROM_CART_ERR);
   };
 
-  const addToLiked = (good) => {
+  const addToLiked = (good: Good): void => {
     const updatedGood = { ...good, isLiked: true };
 
     updateLocalGood(updatedGood);
     updateServerGood(updatedGood, ADD_TO_LIKED_ERR);
   };
-  const removeFromLiked = (good) => {
+  const removeFromLiked = (good: Good): void => {
     const updatedGood = { ...good, isLiked: false };
 
     updateLocalGood(updatedGood);
     updateServerGood(updatedGood, RM_FROM_LIKED_ERR);
   };
 
-  const addToOrders = (goods) => {
+  const addToOrders = (goods: Good[]): void => {
     goods.forEach((e) => removeFromCart(e));
     goods.forEach((e) => (e.isAdded = false));
     setOrderedGoods((prev) => [...prev, ...goods]);
     setOrderNumber((prev) => prev + 1);
   };
 
-  const onSearchChange = (e) => {
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(e.target.value);
   };
 

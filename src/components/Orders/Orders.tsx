@@ -1,3 +1,5 @@
+import Good from '../../types/Good';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 
@@ -15,16 +17,11 @@ const Orders = () => {
 
   const goHome = () => navigate('/');
 
-  const goods = orderedGoods.map((card) => {
+  const goods = orderedGoods.map((card: Good) => {
     return (
       <Card
+        card={card}
         disabled
-        id={card.id}
-        name={card.name}
-        price={card.price}
-        isLiked={card.isLiked}
-        isAdded={card.isAdded}
-        url={card.url}
         key={card.id}
       />
     );

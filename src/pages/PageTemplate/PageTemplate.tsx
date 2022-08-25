@@ -2,7 +2,12 @@ import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import Container from '../../components/Container';
 
-const PageTemplate = ({ children }) => {
+interface Props {
+  children: JSX.Element
+}
+
+
+const PageTemplate = ({ children }: Props) => {
   return (
     <div className="page">
       <Header />

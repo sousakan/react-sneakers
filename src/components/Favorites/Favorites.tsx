@@ -1,3 +1,5 @@
+import Good from '../../types/Good';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 
@@ -16,16 +18,11 @@ const Favorites = () => {
   const goHome = () => navigate('/');
 
   const likedGoods = goods
-    .filter((e) => e.isLiked)
-    .map((card) => {
+    .filter((e: Good) => e.isLiked)
+    .map((card: Good) => {
       return (
         <Card
-          id={card.id}
-          name={card.name}
-          price={card.price}
-          isLiked={card.isLiked}
-          isAdded={card.isAdded}
-          url={card.url}
+          card={card}
           key={card.id}
         />
       );

@@ -1,3 +1,5 @@
+import Good from '../../types/Good';
+
 import { useContext, useEffect, useState, useRef } from 'react';
 import classNames from 'classnames';
 
@@ -24,10 +26,10 @@ const Cart = () => {
     orderNumber,
   } = useContext(Context);
   const [isOrdered, setIsOrdered] = useState(false);
-  const intervalRef = useRef();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   const cartClasses = classNames('cart', { cart_active: isCartOpen });
-  const addedGoods = goods.filter((e) => e.isAdded);
+  const addedGoods = goods.filter((e: Good) => e.isAdded);
 
   const buy = () => {
     setIsOrdered(true);
@@ -38,15 +40,10 @@ const Cart = () => {
     intervalRef.current = setTimeout(() => setIsOrdered(false), 500);
   };
 
-  const bars = addedGoods.map((bar) => (
+  const bars = addedGoods.map((bar: Good) => (
     <Bar
       className="cart__item"
-      id={bar.id}
-      name={bar.name}
-      price={bar.price}
-      isLiked={bar.isLiked}
-      isAdded={bar.isAdded}
-      url={bar.url}
+      good={bar}
       onRemove={removeFromCart}
       key={bar.id}
     />

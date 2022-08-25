@@ -2,7 +2,13 @@ import classNames from 'classnames';
 
 import './Button.scss';
 
-const Button = ({ children, className, onClick }) => {
+interface Props {
+  children: string,
+  className: string,
+  onClick: () => void
+}
+
+const Button = ({ children, className, onClick }: Props) => {
   const btnClasses = classNames('button', className);
 
   return (

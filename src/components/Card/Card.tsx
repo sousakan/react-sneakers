@@ -1,5 +1,6 @@
-import { useContext } from 'react';
+import Good from '../../types/Good';
 
+import { useContext } from 'react';
 import classNames from 'classnames';
 
 import { ReactComponent as LikeIcon } from '../../assets/icons/like.svg';
@@ -11,7 +12,12 @@ import { Context } from '../../Store';
 
 import './Card.scss';
 
-const Card = ({ disabled, ...card }) => {
+interface Props {
+  disabled?: boolean,
+  card: Good,
+}
+
+const Card = ({ disabled = false, card }: Props) => {
   const { addToCart, removeFromCart, addToLiked, removeFromLiked } =
     useContext(Context);
 
@@ -47,7 +53,7 @@ const Card = ({ disabled, ...card }) => {
   );
 
   return (
-    <div className="card" tabIndex="0" role="listitem">
+    <div className="card" tabIndex={0} role="listitem">
       {!disabled && likeBtn}
       <img className="card__img" src={card.url} alt="sneakers" />
       <h3 className="card__name">{card.name}</h3>
