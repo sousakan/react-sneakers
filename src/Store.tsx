@@ -1,10 +1,10 @@
+import Api from './types/Api';
 import Good from './types/Good';
 import State from './types/State';
 
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-import api from './api';
 import calcTotalPrice from './helpers/calcTotalPrice';
 
 export const Context = React.createContext<State>(null!);
@@ -16,10 +16,11 @@ const RM_FROM_LIKED_ERR = 'Ошибка удаления товара из из�
 const GOODS_LOAD_ERR = 'Ошибка загрузки товаров';
 
 interface Props {
-  children: JSX.Element
+  children: JSX.Element;
+  api: Api;
 }
 
-const Store = ({ children }: Props) => {
+const Store = ({ children, api }: Props) => {
   const [goods, setGoods] = useState<Good[]>([]);
   const [orderedGoods, setOrderedGoods] = useState<Good[]>([]);
   const [orderNumber, setOrderNumber] = useState(0);
@@ -100,9 +101,9 @@ const Store = ({ children }: Props) => {
   useEffect(() => {
     async function fetchInitialData() {
       try {
-        const { data } = await api.goods.getAll();
+        const recievedGood = await api.goods.getAll();
 
-        setGoods(data);
+        setGoods(recievedGood);
       } catch (e) {
         alert(GOODS_LOAD_ERR);
         console.error(e);
@@ -110,7 +111,7 @@ const Store = ({ children }: Props) => {
     }
 
     fetchInitialData();
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     setTotalPrice(calcTotalPrice(goods));

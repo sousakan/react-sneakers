@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import './Button.scss';
 
 interface Props {
-  children: string,
-  className: string,
-  onClick: () => void
+  children: string;
+  className: string;
+  onClick: () => void;
 }
 
 const Button = ({ children, className, onClick }: Props) => {

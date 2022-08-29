@@ -13,8 +13,8 @@ import { Context } from '../../Store';
 import './Card.scss';
 
 interface Props {
-  disabled?: boolean,
-  card: Good,
+  disabled?: boolean;
+  card: Good;
 }
 
 const Card = ({ disabled = false, card }: Props) => {
@@ -36,6 +36,7 @@ const Card = ({ disabled = false, card }: Props) => {
       onClick={
         card.isLiked ? () => removeFromLiked(card) : () => addToLiked(card)
       }
+      data-testid="fav-add-button"
     >
       <LikeIcon className="like-button__svg" />
     </button>
@@ -47,13 +48,14 @@ const Card = ({ disabled = false, card }: Props) => {
       onClick={
         card.isAdded ? () => removeFromCart(card) : () => addToCart(card)
       }
+      data-testid="cart-add-button"
     >
       {card.isAdded ? <TickIcon /> : <PlusIcon className="add-button__svg" />}
     </button>
   );
 
   return (
-    <div className="card" tabIndex={0} role="listitem">
+    <div className="card" role="gridcell" data-testid={card.id}>
       {!disabled && likeBtn}
       <img className="card__img" src={card.url} alt="sneakers" />
       <h3 className="card__name">{card.name}</h3>

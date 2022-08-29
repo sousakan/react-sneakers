@@ -52,7 +52,9 @@ const Cart = () => {
   const notEmptyContent = (
     <>
       <main className="cart__main">
-        <div className="cart__list">{bars}</div>
+        <div className="cart__list" role="list">
+          {bars}
+        </div>
       </main>
       <footer className="cart__footer">
         <div className="cart__info">
@@ -63,7 +65,7 @@ const Cart = () => {
         <div className="cart__info">
           <span className="cart__text">Налог 5%:</span>
           <span className="cart__dash"></span>
-          <span className="cart__price">
+          <span className="cart__price" data-testid="total-sum">
             {prettyPrice(calcTax(totalPrice))}
           </span>
         </div>
@@ -108,7 +110,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <div className={cartClasses}>
+    <div className={cartClasses} data-testid="cart">
       <div className="cart__overlay" onClick={closeCart}></div>
       <div className="cart__content">
         <h2 className="cart__title">Корзина</h2>

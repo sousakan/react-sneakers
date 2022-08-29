@@ -16,12 +16,12 @@
 
   width: 35px;
   height: 35px;
-  
+
   background-color: #fff;
 
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
-  
+
   transform: translateY(-50%);
 
   cursor: pointer;
@@ -45,7 +45,6 @@
   border-radius: 20px;
 
   &::after {
-    
     display: block;
     padding-bottom: 31.25%;
 
@@ -81,7 +80,6 @@
 }
 
 .slide__title {
-
   margin-bottom: 25px;
 
   color: var(--black);

@@ -18,13 +18,7 @@ const Orders = () => {
   const goHome = () => navigate('/');
 
   const goods = orderedGoods.map((card: Good) => {
-    return (
-      <Card
-        card={card}
-        disabled
-        key={card.id}
-      />
-    );
+    return <Card card={card} disabled key={card.id} />;
   });
 
   const content = (

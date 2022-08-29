@@ -20,16 +20,11 @@ const Favorites = () => {
   const likedGoods = goods
     .filter((e: Good) => e.isLiked)
     .map((card: Good) => {
-      return (
-        <Card
-          card={card}
-          key={card.id}
-        />
-      );
+      return <Card card={card} key={card.id} />;
     });
 
   const content = (
-    <div className="favorites">
+    <>
       <header className="favorites__header">
         <Link to="/" className="favorites__link">
           <img className="favorites__icon" src={BackIcon} alt="home button" />
@@ -37,7 +32,7 @@ const Favorites = () => {
         <h2 className="favorites__title">Мои закладки</h2>
       </header>
       <main className="favorites__goods">{likedGoods}</main>
-    </div>
+    </>
   );
 
   const emptyContent = (
@@ -52,7 +47,11 @@ const Favorites = () => {
     </main>
   );
 
-  return likedGoods.length ? content : emptyContent;
+  return (
+    <div className="favorites" data-testid="favorites">
+      {likedGoods.length ? content : emptyContent}
+    </div>
+  );
 };
 
 export default Favorites;

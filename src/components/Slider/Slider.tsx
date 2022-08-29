@@ -11,9 +11,8 @@ import './Slider.scss';
 import sliderImg from '../../assets/images/slider_img.png';
 
 interface Props {
-  className: string
+  className: string;
 }
-
 
 const Slider = ({ className }: Props) => {
   const classes = classNames('slider', className);

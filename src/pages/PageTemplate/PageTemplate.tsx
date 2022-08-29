@@ -3,9 +3,8 @@ import Header from '../../components/Header';
 import Container from '../../components/Container';
 
 interface Props {
-  children: JSX.Element
+  children: JSX.Element;
 }
-
 
 const PageTemplate = ({ children }: Props) => {
   return (

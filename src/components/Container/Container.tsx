@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import './Container.scss';
 
 interface Props {
-  children: JSX.Element,
-  isSmall?: boolean,
+  children: JSX.Element;
+  isSmall?: boolean;
 }
 
 const Container = ({ children, isSmall = false }: Props) => {

@@ -5,12 +5,12 @@ import Button from '../Button';
 import './Empty.scss';
 
 interface Props {
-  url: string,
-  title: string,
-  info: string,
-  isSmall?: boolean,
-  isCompleted?: boolean,
-  onClick: () => void,
+  url: string;
+  title: string;
+  info: string;
+  isSmall?: boolean;
+  isCompleted?: boolean;
+  onClick: () => void;
 }
 
 const Empty = ({

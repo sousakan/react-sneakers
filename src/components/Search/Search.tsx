@@ -3,10 +3,9 @@ import './Search.scss';
 import searchIcon from '../../assets/icons/search_icon.svg';
 
 interface Props {
-  value: string,
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  value: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
 
 const Search = ({ onSearchChange, value }: Props) => {
   return (
@@ -18,6 +17,7 @@ const Search = ({ onSearchChange, value }: Props) => {
         placeholder="Поиск..."
         value={value}
         onChange={onSearchChange}
+        role="search"
       />
     </div>
   );

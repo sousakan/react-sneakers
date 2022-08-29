@@ -15,10 +15,12 @@ const Navigation = () => {
   const openCart = () => setIsCartOpen(true);
 
   return (
-    <nav className="nav">
+    <nav className="nav" role="navigation">
       <button className="nav__button" onClick={openCart}>
         <BasketIcon className="nav__icon" />
-        <span className="nav__price">{prettyPrice(totalPrice)}</span>
+        <span className="nav__price" data-testid="total-sum">
+          {prettyPrice(totalPrice)}
+        </span>
       </button>
       <Link to="/favorites" className="nav__link">
         <LikeIcon className="nav__icon" />
