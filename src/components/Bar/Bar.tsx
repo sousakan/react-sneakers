@@ -9,7 +9,7 @@ import './Bar.scss';
 interface Props {
   className?: string;
   good: Good;
-  onRemove: (good: Good) => void;
+  onRemove: (card: Good) => void;
 }
 
 const Bar = ({ className, good, onRemove }: Props) => {

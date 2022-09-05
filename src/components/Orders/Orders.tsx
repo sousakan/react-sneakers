@@ -1,18 +1,16 @@
 import Good from '../../types/Good';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-
-import { Context } from '../../Store';
 
 import Empty from '../Empty';
 import Card from '../Card';
 import BackIcon from '../../assets/icons/back_button.svg';
 import EmojiImg from '../../assets/images/orders_emoji.png';
 import './Orders.scss';
+import { useAppSelector } from '../../app/hooks';
 
 const Orders = () => {
-  const { orderedGoods } = useContext(Context);
+  const orderedGoods = useAppSelector((state) => state.orders);
   const navigate = useNavigate();
 
   const goHome = () => navigate('/');

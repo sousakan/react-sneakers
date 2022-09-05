@@ -1,27 +1,23 @@
 import Good from '../../types/Good';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-
-import { Context } from '../../Store';
 
 import Empty from '../Empty';
 import Card from '../Card';
 import BackIcon from '../../assets/icons/back_button.svg';
 import EmojiImg from '../../assets/images/fav_emoji.png';
 import './Favorites.scss';
+import { useAppSelector } from '../../app/hooks';
+import { selectLikedGoods } from '../../features/goods/goodsSlice';
 
 const Favorites = () => {
-  const { goods } = useContext(Context);
   const navigate = useNavigate();
 
   const goHome = () => navigate('/');
 
-  const likedGoods = goods
-    .filter((e: Good) => e.isLiked)
-    .map((card: Good) => {
-      return <Card card={card} key={card.id} />;
-    });
+  const likedGoods = useAppSelector(selectLikedGoods).map((card: Good) => {
+    return <Card card={card} key={card.id} />;
+  });
 
   const content = (
     <>

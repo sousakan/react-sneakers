@@ -1,60 +1,64 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import { setupServer } from 'msw/lib/node';
 import Goods from '../components/Goods';
-import Store from '../Store';
-import Api from '../types/Api';
+import { fetchAllGoods } from '../features/goods/goodsSlice';
 import Good from '../types/Good';
-import cardData from './mock/data';
-import getMockedApi from './mock/getMockedApi';
+import { getHandlers, renderWithProviders } from './test-utils';
+
+const goods: Good[] = [
+  {
+    id: '1',
+    name: 'Мужские Кроссовки Nike Blazer Mid Suede',
+    price: 12999,
+    isLiked: false,
+    isAdded: false,
+    url: './images/goods/1.png',
+  },
+  {
+    id: '2',
+    name: 'Мужские Кроссовки Nike Air Max 270',
+    price: 12999,
+    isLiked: false,
+    isAdded: true,
+    url: './images/goods/2.png',
+  },
+  {
+    id: '3',
+    name: 'Мужские Кроссовки Jordan Air Jordan 11',
+    price: 8499,
+    isLiked: true,
+    isAdded: false,
+    url: './images/goods/3.png',
+  },
+];
+
+const server = setupServer(...getHandlers(goods));
+
+beforeAll(() => server.listen());
+
+afterEach(() => server.restoreHandlers());
+
+afterAll(() => server.close());
 
 describe('Проверка фильтрации товаров', () => {
-  function getApp(goods: Good[], mockedApi: Api): JSX.Element {
-    const app = (
-      <React.StrictMode>
-        <Store api={mockedApi}>
-          <Goods />
-        </Store>
-      </React.StrictMode>
-    );
+  function getApp(): JSX.Element {
+    const app = <Goods />;
 
     return app;
   }
 
   test('При вводе ключевых слов в поисковую строку остаются только товары, содержащие данное ключевое слово в названии', async () => {
-    // Подготовка
+    const app = getApp();
 
-    const good1 = {
-      ...cardData,
-      id: '1',
-      name: 'Мужские Кроссовки Nike Blazer Mid Suede',
-    };
-    const good2 = {
-      ...cardData,
-      id: '2',
-      name: 'Мужские Кроссовки Nike Air Max 270',
-    };
-    const good3 = {
-      ...cardData,
-      id: '3',
-      name: 'Мужские Кроссовки Jordan Air Jordan 11',
-    };
+    const { store } = renderWithProviders(app);
 
-    const goods = [good1, good2, good3];
-
-    const mockedApi = getMockedApi(goods);
-    const app = getApp(goods, mockedApi);
-
-    render(app);
+    store.dispatch(fetchAllGoods());
 
     const search = await screen.findByRole('search');
 
-    // Действие
-
     userEvent.type(search, 'Nike');
-
-    // Проверка
 
     const filteredGoods = await screen.findAllByRole('gridcell');
     expect(filteredGoods.length).toBe(2);

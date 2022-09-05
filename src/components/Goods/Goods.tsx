@@ -1,16 +1,21 @@
+import { useAppSelector } from '../../app/hooks';
 import Good from '../../types/Good';
-
-import { useContext } from 'react';
 
 import Card from '../Card';
 import SkeletonCard from '../SkeletonCard';
 import Search from '../Search';
-import { Context } from '../../Store';
 
 import './Goods.scss';
+import { selectAllGoods } from '../../features/goods/goodsSlice';
+import { useState } from 'react';
 
 const Goods = () => {
-  const { goods, onSearchChange, searchValue } = useContext(Context);
+  const goods = useAppSelector(selectAllGoods);
+  const [searchValue, setSearchValue] = useState('');
+
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchValue(e.target.value);
+  };
 
   const cards = goods
     .filter((e: Good) =>

@@ -1,18 +1,21 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
-import { Context } from '../../Store';
 import { ReactComponent as BasketIcon } from '../../assets/icons/basket.svg';
 import { ReactComponent as LikeIcon } from '../../assets/icons/nav_like.svg';
 import { ReactComponent as ProfileIcon } from '../../assets/icons/profile.svg';
+import { cartOpened } from '../../features/cart/cartSlice';
+import { selectGoodsInCart } from '../../features/goods/goodsSlice';
 import prettyPrice from '../../helpers/prettyPrice';
 
 import './Navigation.scss';
 
 const Navigation = () => {
-  const { setIsCartOpen, totalPrice } = useContext(Context);
+  const dispatch = useAppDispatch();
+  const addedGoods = useAppSelector(selectGoodsInCart);
+  const totalPrice = addedGoods.reduce((acc, v) => acc + v.price, 0);
 
-  const openCart = () => setIsCartOpen(true);
+  const openCart = () => dispatch(cartOpened());
 
   return (
     <nav className="nav" role="navigation">

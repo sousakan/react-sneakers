@@ -1,42 +1,49 @@
 import Good from '../../types/Good';
-
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames';
-
-import { Context } from '../../Store';
 import Bar from '../Bar';
 import Button from '../Button';
 import Empty from '../Empty';
-
 import prettyPrice from '../../helpers/prettyPrice';
 import calcTax from '../../helpers/calcTax';
-
 import boxImage from '../../assets/images/box.png';
 import orderImage from '../../assets/images/order_completed.jpg';
 import './Cart.scss';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  goodRemovedFromCart,
+  goodsRemovedFromCart,
+  selectGoodsInCart,
+} from '../../features/goods/goodsSlice';
+import { ordersAdded } from '../../features/orders/ordersSlice';
+import {
+  cartClosed,
+  orderNumberIncremented,
+} from '../../features/cart/cartSlice';
 
 const Cart = () => {
-  const {
-    goods,
-    removeFromCart,
-    isCartOpen,
-    setIsCartOpen,
-    totalPrice,
-    addToOrders,
-    orderNumber,
-  } = useContext(Context);
   const [isOrdered, setIsOrdered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout>();
+  const dispatch = useAppDispatch();
 
-  const cartClasses = classNames('cart', { cart_active: isCartOpen });
-  const addedGoods = goods.filter((e: Good) => e.isAdded);
+  const addedGoods = useAppSelector(selectGoodsInCart);
+  const isCartOpened = useAppSelector((state) => state.cart.isCartOpen);
+  const orderNumber = useAppSelector((state) => state.cart.orderNumber);
+
+  const totalPrice = addedGoods.reduce((acc, v) => acc + v.price, 0);
+
+  const removeFromCart = (card: Good) => dispatch(goodRemovedFromCart(card.id));
+
+  const cartClasses = classNames('cart', { cart_active: isCartOpened });
 
   const buy = () => {
     setIsOrdered(true);
-    addToOrders(addedGoods);
+    dispatch(orderNumberIncremented());
+    dispatch(ordersAdded(addedGoods));
+    dispatch(goodsRemovedFromCart(addedGoods));
   };
   const closeCart = () => {
-    setIsCartOpen(false);
+    dispatch(cartClosed());
     intervalRef.current = setTimeout(() => setIsOrdered(false), 500);
   };
 
@@ -60,12 +67,14 @@ const Cart = () => {
         <div className="cart__info">
           <span className="cart__text">Итого:</span>
           <span className="cart__dash"></span>
-          <span className="cart__price">{prettyPrice(totalPrice)}</span>
+          <span className="cart__price" data-testid="total-sum">
+            {prettyPrice(totalPrice)}
+          </span>
         </div>
         <div className="cart__info">
           <span className="cart__text">Налог 5%:</span>
           <span className="cart__dash"></span>
-          <span className="cart__price" data-testid="total-sum">
+          <span className="cart__price">
             {prettyPrice(calcTax(totalPrice))}
           </span>
         </div>
@@ -102,8 +111,8 @@ const Cart = () => {
   const content = addedGoods.length ? notEmptyContent : emptyContent;
 
   useEffect(() => {
-    document.body.style.overflow = isCartOpen ? 'hidden' : '';
-  }, [isCartOpen]);
+    document.body.style.overflow = isCartOpened ? 'hidden' : '';
+  }, [isCartOpened]);
 
   useEffect(() => {
     return () => clearTimeout(intervalRef.current);

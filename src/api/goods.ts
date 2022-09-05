@@ -1,12 +1,10 @@
 import Good from '../types/Good';
 import axios from './axios';
 
-const goodsURL = 'goods';
-
 export const getAll = async (): Promise<Good[]> => {
-  const { data: goods } = await axios.get<Good[]>(goodsURL);
+  const { data: goods } = await axios.get<Good[]>('goods');
 
   return goods;
 };
 export const update = async (good: Good): Promise<void> =>
-  axios.put(`${goodsURL}/${good.id}`, good);
+  axios.put(`goods/${good.id}`, good);

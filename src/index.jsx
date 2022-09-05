@@ -1,16 +1,22 @@
+import { Provider } from 'react-redux';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Store from './Store';
 import App from './pages/App';
-import api from './api';
+import { setupStore } from './app/store';
+import { fetchAllGoods } from './features/goods/goodsSlice';
+
+const store = setupStore();
+
+store.dispatch(fetchAllGoods());
 
 const rootElement = document.getElementById('root');
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <Store api={api}>
+    <Provider store={store}>
       <App />
-    </Store>
+    </Provider>
   </React.StrictMode>
 );

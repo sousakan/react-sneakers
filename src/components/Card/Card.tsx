@@ -1,6 +1,10 @@
+import {
+  goodAddedToCart,
+  goodRemovedFromCart,
+  goodAddedToLiked,
+  goodRemovedFromLiked,
+} from '../../features/goods/goodsSlice';
 import Good from '../../types/Good';
-
-import { useContext } from 'react';
 import classNames from 'classnames';
 
 import { ReactComponent as LikeIcon } from '../../assets/icons/like.svg';
@@ -8,9 +12,8 @@ import { ReactComponent as PlusIcon } from '../../assets/icons/plus.svg';
 import { ReactComponent as TickIcon } from '../../assets/icons/tick.svg';
 
 import prettyPrice from '../../helpers/prettyPrice';
-import { Context } from '../../Store';
-
 import './Card.scss';
+import { useAppDispatch } from '../../app/hooks';
 
 interface Props {
   disabled?: boolean;
@@ -18,8 +21,12 @@ interface Props {
 }
 
 const Card = ({ disabled = false, card }: Props) => {
-  const { addToCart, removeFromCart, addToLiked, removeFromLiked } =
-    useContext(Context);
+  const dispatch = useAppDispatch();
+
+  const addToCart = () => dispatch(goodAddedToCart(card.id));
+  const removeFromCart = () => dispatch(goodRemovedFromCart(card.id));
+  const addToLiked = () => dispatch(goodAddedToLiked(card.id));
+  const removeFromLiked = () => dispatch(goodRemovedFromLiked(card.id));
 
   const likeBtnClass = 'like-button';
   const addBtnClass = 'add-button';
@@ -33,9 +40,7 @@ const Card = ({ disabled = false, card }: Props) => {
   const likeBtn = (
     <button
       className={likeBtnClasses}
-      onClick={
-        card.isLiked ? () => removeFromLiked(card) : () => addToLiked(card)
-      }
+      onClick={card.isLiked ? () => removeFromLiked() : () => addToLiked()}
       data-testid="fav-add-button"
     >
       <LikeIcon className="like-button__svg" />
@@ -45,9 +50,7 @@ const Card = ({ disabled = false, card }: Props) => {
   const addBtn = (
     <button
       className={addBtnClasses}
-      onClick={
-        card.isAdded ? () => removeFromCart(card) : () => addToCart(card)
-      }
+      onClick={card.isAdded ? () => removeFromCart() : () => addToCart()}
       data-testid="cart-add-button"
     >
       {card.isAdded ? <TickIcon /> : <PlusIcon className="add-button__svg" />}

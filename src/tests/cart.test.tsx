@@ -1,25 +1,46 @@
 import '@testing-library/jest-dom';
-import { render, screen, within } from '@testing-library/react';
+import { setupServer } from 'msw/node';
+import { screen, within } from '@testing-library/react';
+import { getHandlers, renderWithProviders } from './test-utils';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
-import Card from '../components/Card';
 import Cart from '../components/Cart';
-import Store from '../Store';
-import Api from '../types/Api';
+import Goods from '../components/Goods';
+import { fetchAllGoods } from '../features/goods/goodsSlice';
 import Good from '../types/Good';
-import cardData from './mock/data';
-import getMockedApi from './mock/getMockedApi';
 
-function getApp(cardData: Good, mockedApi: Api): JSX.Element {
+const goods: Good[] = [
+  {
+    id: '1',
+    name: 'Мужские Кроссовки Nike Blazer Mid Suede',
+    price: 12999,
+    isLiked: false,
+    isAdded: false,
+    url: './images/goods/1.png',
+  },
+  {
+    id: '2',
+    name: 'Мужские Кроссовки Nike Air Max 270',
+    price: 12999,
+    isLiked: false,
+    isAdded: true,
+    url: './images/goods/2.png',
+  },
+];
+
+const server = setupServer(...getHandlers(goods));
+
+beforeAll(() => server.listen());
+
+afterEach(() => server.restoreHandlers());
+
+afterAll(() => server.close());
+
+function getApp(): JSX.Element {
   const app = (
-    <React.StrictMode>
-      <Store api={mockedApi}>
-        <>
-          <Card card={cardData} />
-          <Cart />
-        </>
-      </Store>
-    </React.StrictMode>
+    <>
+      <Goods />
+      <Cart />
+    </>
   );
 
   return app;
@@ -27,33 +48,37 @@ function getApp(cardData: Good, mockedApi: Api): JSX.Element {
 
 describe('Проверка работы корзины', () => {
   test('При нажатии на кнопку добавления товара в корзину товар появляется в корзине', async () => {
-    const good = { ...cardData };
+    const good = goods[0];
 
-    const mockedApi = getMockedApi([good]);
-    const app = getApp(good, mockedApi);
+    const app = getApp();
 
-    render(app);
+    const { store } = renderWithProviders(app);
 
-    const card = await screen.findByRole('gridcell');
-    const addBtn = within(card).getByTestId('cart-add-button');
-    const cart = screen.getByTestId('cart');
+    store.dispatch(fetchAllGoods());
+
+    const grid = await screen.findByRole('grid');
+    const card = await within(grid).findByTestId(good.id);
+    const addBtn = await within(card).findByTestId('cart-add-button');
+    const cart = await screen.findByTestId('cart');
 
     userEvent.click(addBtn);
 
-    const bar = within(cart).getByTestId(String(card.dataset.testid));
+    const bar = await within(cart).findByTestId(String(card.dataset.testid));
 
     expect(cart).toContainElement(bar);
   });
 
   test('При нажатии на кнопку удаления товара из корзины товар удаляется из корзины', async () => {
-    const good = { ...cardData, isAdded: true };
+    const good = goods[1];
 
-    const mockedApi = getMockedApi([good]);
-    const app = getApp(good, mockedApi);
+    const app = getApp();
 
-    render(app);
+    const { store } = renderWithProviders(app);
 
-    const card = await screen.findByRole('gridcell');
+    store.dispatch(fetchAllGoods());
+
+    const grid = await screen.findByRole('grid');
+    const card = await within(grid).findByTestId(good.id);
     const addBtn = await within(card).findByTestId('cart-add-button');
     const cart = await screen.findByTestId('cart');
     const bar = await within(cart).findByTestId(String(card.dataset.testid));
@@ -64,16 +89,17 @@ describe('Проверка работы корзины', () => {
   });
 
   test('При нажатии на кнопку карточки корзины удаления товара товар удаляется из корзины', async () => {
-    const good = { ...cardData, isAdded: true };
+    const good = goods[1];
 
-    const mockedApi = getMockedApi([good]);
-    const app = getApp(good, mockedApi);
+    const app = getApp();
 
-    render(app);
+    const { store } = renderWithProviders(app);
+
+    store.dispatch(fetchAllGoods());
 
     const cart = await screen.findByTestId('cart');
-    const removeBtn = await within(cart).findByTestId('bar-remove-button');
-    const bar = await screen.findByRole('listitem');
+    const bar = await within(cart).findByTestId(good.id);
+    const removeBtn = await within(bar).findByTestId('bar-remove-button');
 
     userEvent.click(removeBtn); // Удаление из корзины
 
